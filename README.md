@@ -7,7 +7,7 @@ This project is a part of the [Data Science Working Group](http://datascience.co
 #### -- Project Status: [Completed]
 
 ## Project Intro/Objective
-The purpose of this project is showcase trends in Youtube and Billboard 100 lists.
+The purpose of this project is showcase trends in Youtube and Billboard 100 lists by extracting, tranforming and loading data.
 
 ### Methods Used
 * Inferential Statistics
