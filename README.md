@@ -10,51 +10,58 @@ This project is a part of the [Data Science Working Group](http://datascience.co
 The purpose of this project is showcase trends in Youtube and Billboard 100 lists by extracting, tranforming and loading data.
 
 ### Methods Used
-* Inferential Statistics
-* Machine Learning
-* Data Visualization
-* Predictive Modeling
-* etc.
-
 ### Technologies
 * Python
 * PostGres, MySql
 * Pandas, jupyter
-* HTML
+
 
 ## Project Description
+Step 1 Extracting the data
+Data Source 1:
+Trending YouTube Video Statistics (CSV)
+-	We found a CSV dataset from Kaggle that provided “Trending YouTube Video Statistics” (link: https://www.kaggle.com/datasnaek/youtube-new). After downloading this csv file locally, we then proceeded to read the csv into our jupyter notebook using pandas (i.e. read_csv syntax).
+
+Data Source 2:
+YouTube Category IDs (JSON)
+-	We downloaded a JSON dataset that provided information on YouTube category ids from the same kaggle website as above (link: https://www.kaggle.com/datasnaek/youtube-new). After downloading it locally, we imported the json file using the following syntax:
+with open('US_category_id.json') as json_file:
+  json_data = json.load(json_file)
+-	After importing the JSON file, we needed to navigate into the json lists to track down category ids/titles. After finding where this information was located, we looped through the JSON to get a list of category id numbers and these corresponding category titles. This was done with the following syntax:
+	items = json_data["items"]
+ids = []
+titles = []
+for item in items:
+    		ids.append(item["id"])
+    		titles.append(item["snippet"]["title"])
+titles
+-	After completing the loop, we created a dataframe using pandas to story the list of ids and category names.
+Data Source 3:
+Billboard’s The Hot 100 List (HTML)
+-	We webscraped the Billboard Trending 100 list (link: https://www.billboard.com/charts/hot-100) to find the trending songs and corresponding artists. To do this, we used the Beautiful Soup syntax taught in class.
+-	The information was gathered using a “for loop,” and appending the found information to two empty lists (i.e. one list holds song information and another list holds artist information).
+-	When scraping through a loop, we saved the resulting artist and song information in a table with two corresponding columns.
+Step 2  Transforming the data
+-	After reading our csv and json files into our jupyter notebook with pandas to separate dataframes, we then changed the headings of relevant columns as needed and configured the data types (i.e. using .astype(str).astype(int)) so that we would be able to work with the information.
+-	We then merged both dataframes into one table for our use. We used a left join for this because we wanted to match information from the category id json file to the full csv of trending youtube statistics. The following syntax was used to complete this:
+merged_df = pd.merge(youtubecsv_df, category_list, how = "left", on="cat_id")
+-	When this was done, we were then able to filter the dataframe to just get the columns that we want to upload into our production database.
+-	The Billboard information that we scraped using Beautiful Soup was also saved converted from a table to a dataframe.
+Step 3 Loading the data
+-	After transforming our data on jupyter notebook using pandas, we then created a corresponding schema in postgreSQL using Pg Admin 4.
+-	Once this was done, we were able to use SQL Alchemy to load the data into Postgres. To do this, we needed to connect to the engine. Once connected, we checked our table was indeed present by using the following syntax:
+engine.table_names()
+-	After confirming we were connected to postgres, we were able to transforming our dataframes into databases using the to_sql syntax.
+
+Next steps
+The information gathered here could be further analyzed to determine whether there is any relation between songs/artists trending on YouTube and songs/artists that Billboard identifies as in their “Top 100” categorization.
+
+
 (Provide more detailed overview of the project.  Talk a bit about your data sources and what questions and hypothesis you are exploring. What specific data analysis/visualization and modelling work are you using to solve the problem? What blockers and challenges are you facing?  Feel free to number or bullet point things here)
 
-## Needs of this project
+## Contributing Members
+Yinka Adesanmi, Nitin Madaan, Yashwinie Shivanand
 
-- frontend developers
-- data exploration/descriptive statistics
-- data processing/cleaning
-- statistical modeling
-- writeup/reporting
-- etc. (be as specific as possible)
-
-## Getting Started
-
-1. Clone this repo (for help see this [tutorial](https://help.github.com/articles/cloning-a-repository/)).
-2. Raw Data is being kept [here](Repo folder containing raw data) within this repo.
-
-    *If using offline data mention that and how they may obtain the data from the froup)*
-    
-3. Data processing/transformation scripts are being kept [here](Repo folder containing data processing scripts/notebooks)
-4. etc...
-
-*If your project is well underway and setup is fairly complicated (ie. requires installation of many packages) create another "setup.md" file and link to it here*  
-
-5. Follow setup [instructions](Link to file)
-
-## Featured Notebooks/Analysis/Deliverables
-* [Notebook/Markdown/Slide Deck Title](link)
-* [Notebook/Markdown/Slide DeckTitle](link)
-* [Blog Post](link)
-
-
-## Contributing DSWG Members
 
 **Team Leads (Contacts) : [Full Name](https://github.com/[github handle])(@slackHandle)**
 
