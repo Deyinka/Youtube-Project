@@ -14,6 +14,7 @@ The purpose of this project is showcase trends in Youtube and Billboard 100 list
 * Python
 * PostGres, MySql
 * Pandas, jupyter
+HTML
 
 
 ## Project Description
